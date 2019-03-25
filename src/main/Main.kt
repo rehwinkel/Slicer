@@ -1,8 +1,10 @@
 package main
 
-import load.OBJLoader
 import load.STLLoader
 import load.ModelData
+import load.OBJLoader
+import math.Plane
+import math.Vector3
 import org.lwjgl.opengl.GL11
 import testgl.Window
 import java.io.File
@@ -12,8 +14,15 @@ fun main(args: Array<String>) {
     //println(loader.loadFile("/home/ian/Desktop/cube_bin.stl"))
     //println(loader.loadFile("/home/ian/Desktop/Sphericon.stl"))
     //println(loader.loadFile("/home/ian/Desktop/tea.stl"))
-    render(OBJLoader.loadFile(File("/home/ian/Desktop/testmodels/testball.obj")))
-    render(STLLoader.loadFile(File("/home/ian/Desktop/testmodels/testmodel.stl")))
+    val model = OBJLoader.loadFile(File("/home/ian/Desktop/testmodels/testball.obj"))
+    //val model = STLLoader.loadFile(File("/home/ian/Desktop/testmodels/cube_ascii.stl"))
+    val height = -0.45f
+    val yPlane = Plane(Vector3(0f, height, 0f), Vector3(0f, 1f, 0f))
+    val intersecting = model.faces.filter { yPlane.triangleIntersectsPlane(it) }
+    val data = ModelData("")
+    intersecting.forEach { data.add(it) }
+    OBJLoader.saveFile(File("/home/ian/Desktop/test.obj"), model)
+    //render(model)
     //testgl.render(OBJLoader.loadFile(File("/home/ian/Desktop/testmodels/testball2.obj")))
     //testgl.render(STLLoader.loadFile(File("/home/ian/Desktop/testmodels/testmodel.stl")))
 }

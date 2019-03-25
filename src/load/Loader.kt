@@ -8,4 +8,8 @@ abstract class Loader {
 
     abstract fun load(data: ByteArray): ModelData
 
+    fun saveFile(file: File, data: ModelData) = file.writeBytes(save(data))
+
+    abstract fun save(data: ModelData): ByteArray
+
 }

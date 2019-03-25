@@ -1,5 +1,8 @@
 package load
 
+import math.Triangle
+import math.Vector3
+
 class STLParser(inputString: String) {
     val tokens = tokenize(inputString).iterator()
     lateinit var currentToken: Token
@@ -44,7 +47,7 @@ class STLParser(inputString: String) {
         return vertexData
     }
 
-    private fun parseFacet(): ModelData.Face {
+    private fun parseFacet(): Triangle {
         expect("facet")
         expect(" ")
         expect("normal")
@@ -67,7 +70,7 @@ class STLParser(inputString: String) {
 
         expect("endfacet")
         skipTokensUntil("\n")
-        return ModelData.Face(v0, v1, v2, normal)
+        return Triangle(v0, v1, v2, normal)
     }
 
     private fun parseVertex(): Vector3 {

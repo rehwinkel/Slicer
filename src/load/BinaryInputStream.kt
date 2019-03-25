@@ -2,6 +2,7 @@ package load
 
 import java.io.ByteArrayInputStream
 import java.nio.ByteBuffer
+import java.nio.ByteOrder
 
 class BinaryInputStream(data: ByteArray) : ByteArrayInputStream(data) {
 
@@ -15,17 +16,11 @@ class BinaryInputStream(data: ByteArray) : ByteArrayInputStream(data) {
     }
 
     fun readShort(): Short {
-        val b0 = readByte()
-        val b1 = readByte()
-        return ByteBuffer.wrap(byteArrayOf(b1, b0)).short
+        return ByteBuffer.wrap(byteArrayOf(readByte(), readByte())).order(ByteOrder.LITTLE_ENDIAN).short
     }
 
     fun readInt(): Int {
-        val b0 = readByte()
-        val b1 = readByte()
-        val b2 = readByte()
-        val b3 = readByte()
-        return ByteBuffer.wrap(byteArrayOf(b3, b2, b1, b0)).int
+        return ByteBuffer.wrap(byteArrayOf(readByte(), readByte(), readByte(), readByte())).order(ByteOrder.LITTLE_ENDIAN).int
     }
 
     fun readFloat(): Float {

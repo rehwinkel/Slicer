@@ -1,6 +1,30 @@
 package load
 
+import math.Vector3
+
 object STLLoader : Loader() {
+
+    override fun save(data: ModelData): ByteArray {
+        val outStream = BinaryOutputStream()
+        val headerBytes = data.header.toByteArray(Charsets.US_ASCII)
+        outStream.write(headerBytes)
+        outStream.write(ByteArray(80 - headerBytes.size))
+
+        outStream.writeInt(data.faces.size)
+        data.faces.forEach {
+            outStream.writeFloat(it.normal.x)
+            outStream.writeFloat(it.normal.y)
+            outStream.writeFloat(it.normal.z)
+            it.vertices.forEach { i ->
+                outStream.writeFloat(i.x)
+                outStream.writeFloat(i.y)
+                outStream.writeFloat(i.z)
+            }
+            outStream.writeShort(2)
+        }
+
+        return outStream.toByteArray()
+    }
 
     override fun load(data: ByteArray): ModelData {
         return if (isAscii(data)) {
@@ -12,7 +36,7 @@ object STLLoader : Loader() {
 
     private fun loadBinary(data: BinaryInputStream): ModelData {
         val header = data.readN(80)
-        val headerString = String(header).substring(0, header.indexOf(0))
+        val headerString = String(header, Charsets.US_ASCII).substring(0, header.indexOf(0))
         val triangleCount = data.readInt()
 
         val vertexData = ModelData(headerString)
