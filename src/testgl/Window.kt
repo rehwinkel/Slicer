@@ -1,4 +1,4 @@
-package render
+package testgl
 
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.opengl.GL

@@ -4,18 +4,18 @@ import load.OBJLoader
 import load.STLLoader
 import load.ModelData
 import org.lwjgl.opengl.GL11
-import render.Window
+import testgl.Window
 import java.io.File
 
-fun main() {
+fun main(args: Array<String>) {
     //println(loader.loadFile("/home/ian/Desktop/cube_ascii.stl"))
     //println(loader.loadFile("/home/ian/Desktop/cube_bin.stl"))
     //println(loader.loadFile("/home/ian/Desktop/Sphericon.stl"))
     //println(loader.loadFile("/home/ian/Desktop/tea.stl"))
     render(OBJLoader.loadFile(File("/home/ian/Desktop/testmodels/testball.obj")))
     render(STLLoader.loadFile(File("/home/ian/Desktop/testmodels/testmodel.stl")))
-    //render(OBJLoader.loadFile(File("/home/ian/Desktop/testmodels/testball2.obj")))
-    //render(STLLoader.loadFile(File("/home/ian/Desktop/testmodels/testmodel.stl")))
+    //testgl.render(OBJLoader.loadFile(File("/home/ian/Desktop/testmodels/testball2.obj")))
+    //testgl.render(STLLoader.loadFile(File("/home/ian/Desktop/testmodels/testmodel.stl")))
 }
 
 fun render(model: ModelData) {
