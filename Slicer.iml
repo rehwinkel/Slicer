@@ -11,5 +11,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
     <orderEntry type="library" name="LWJGL" level="project" />
+    <orderEntry type="library" name="LWJGL" level="project" />
   </component>
 </module>
