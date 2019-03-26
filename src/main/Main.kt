@@ -10,7 +10,7 @@ import org.lwjgl.opengl.GL11
 import testgl.Window
 import java.io.File
 
-fun main(args: Array<String>) {
+fun main() {
     //println(loader.loadFile("/home/ian/Desktop/cube_ascii.stl"))
     //println(loader.loadFile("/home/ian/Desktop/cube_bin.stl"))
     //println(loader.loadFile("/home/ian/Desktop/Sphericon.stl"))
