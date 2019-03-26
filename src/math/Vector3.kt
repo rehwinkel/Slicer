@@ -2,11 +2,7 @@ package math
 
 import math.FloatUtil.floatNE
 
-data class Vector3(val x: Float, val y: Float, val z: Float) {
-    fun add(other: Vector3): Vector3 {
-        return Vector3(this.x + other.x, this.y + other.y, this.z + other.z)
-    }
-
+data class Vector3(val x: Float = 0f, val y: Float = 0f, val z: Float = 0f) {
     fun normalized(): Vector3 {
         val length = mag()
         return Vector3(this.x / length, this.y / length, this.z / length)
@@ -24,7 +20,11 @@ data class Vector3(val x: Float, val y: Float, val z: Float) {
         return Math.sqrt((this.x * this.x + this.y * this.y + this.z * this.z).toDouble()).toFloat()
     }
 
-    fun sub(other: Vector3): Vector3 {
+    operator fun plus(other: Vector3): Vector3  {
+        return Vector3(this.x + other.x, this.y + other.y, this.z + other.z)
+    }
+
+    operator fun minus(other: Vector3): Vector3 {
         return Vector3(this.x - other.x, this.y - other.y, this.z - other.z)
     }
 
@@ -43,5 +43,13 @@ data class Vector3(val x: Float, val y: Float, val z: Float) {
         if (floatNE(z, other.z)) return false
 
         return true
+    }
+
+    operator fun times(b: Float): Vector3 {
+        return Vector3(this.x * b, this.y * b, this.z * b)
+    }
+
+    operator fun times(other: Vector3): Vector3 {
+        return Vector3(this.x * other.x, this.y * other.y, this.z * other.z)
     }
 }
