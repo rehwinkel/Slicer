@@ -1,8 +1,8 @@
 package main
 
-import load.STLLoader
 import load.ModelData
 import load.OBJLoader
+import load.STLLoader
 import math.Plane
 import math.Triangle
 import math.Vector3
@@ -17,18 +17,19 @@ fun main(args: Array<String>) {
     //println(loader.loadFile("/home/ian/Desktop/tea.stl"))
     val model = STLLoader.loadFile(File("/home/ian/Desktop/testmodels/tea.stl"))
     //val model = STLLoader.loadFile(File("/home/ian/Desktop/testmodels/cube_ascii.stl"))
-    val height = -0.45f
-    val yPlane = Plane(Vector3(0f, height, 0f), Vector3(0f, 1f, 0f))
-    val intersecting = model.faces.filter { yPlane.triangleIntersectsPlane(it) }
+    //val model = OBJLoader.loadFile(File("/home/ian/Desktop/testmodels/futebol.obj"))
+    var height = -6f
     val data = ModelData(model.header)
-    intersecting.forEach {
-        it.rays.forEach { i ->
-            val x = yPlane.rayPlaneIntersection(i)
-            if(x != null) {
-                data.add(Triangle(x, x, x))
-            }
+    for (i in 0..240) {
+        val yPlane = Plane(Vector3(0f, height, 0f), Vector3(0f, 1f, 0f))
+        val intersecting = model.faces.mapNotNull { yPlane.triangleIntersectsPlane(it) }
+        intersecting.forEach {
+            data.add(Triangle(it.first, it.first, it.second))
         }
+        height += 0.05f
+        println("Slicing layer $i!")
     }
+    println("Sliced!")
     OBJLoader.saveFile(File("/home/ian/Desktop/out.obj"), data)
     //render(model)
     //testgl.render(OBJLoader.loadFile(File("/home/ian/Desktop/testmodels/testball2.obj")))

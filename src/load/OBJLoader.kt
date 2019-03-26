@@ -7,25 +7,31 @@ object OBJLoader : Loader() {
     override fun save(data: ModelData): ByteArray {
         val vertices = data.faces.flatMap { it.vertices }
         val normals = data.faces.map { it.normal }
-        val normalsSet = normals.distinct().mapIndexed { i, v -> v to i }.toMap()
-        val normalsIndexMapping = normals.mapIndexed { i, v -> i to normalsSet.getValue(v) }.toMap()
-        val verticesSet = vertices.distinct().mapIndexed { i, v -> v to i }.toMap()
-        val verticesIndexMapping = vertices.mapIndexed { i, v -> i to verticesSet.getValue(v) }.toMap()
+        //val normalsSet = normals.distinct().mapIndexed { i, v -> v to i }.toMap()
+        //val normalsIndexMapping = normals.mapIndexed { i, v -> i to normalsSet.getValue(v) }.toMap()
+        //val verticesSet = vertices.distinct().mapIndexed { i, v -> v to i }.toMap()
+        //val verticesIndexMapping = vertices.mapIndexed { i, v -> i to verticesSet.getValue(v) }.toMap()
 
         val outStream = StringBuilder()
         outStream.append("o ${data.header}\n")
-        verticesSet.keys.forEach {
+        /*verticesSet.keys.forEach {
             outStream.append("v ${it.x} ${it.y} ${it.z}\n")
         }
         normalsSet.keys.forEach {
             outStream.append("vn ${it.x} ${it.y} ${it.z}\n")
+        }*/
+        vertices.forEach {
+            outStream.append("v ${it.x} ${it.y} ${it.z}\n")
+        }
+        normals.forEach {
+            outStream.append("vn ${it.x} ${it.y} ${it.z}\n")
         }
 
         data.faces.forEachIndexed { index, triangle ->
-            val realX = verticesIndexMapping.getValue(index * 3 + 0) + 1
-            val realY = verticesIndexMapping.getValue(index * 3 + 1) + 1
-            val realZ = verticesIndexMapping.getValue(index * 3 + 2) + 1
-            val normal = normalsIndexMapping.getValue(index) + 1
+            val realX = index * 3 + 1
+            val realY = index * 3 + 2
+            val realZ = index * 3 + 3
+            val normal = index + 1
             outStream.append("f $realX//$normal $realY//$normal $realZ//$normal\n")
         }
 
