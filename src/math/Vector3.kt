@@ -20,6 +20,10 @@ data class Vector3(val x: Float = 0f, val y: Float = 0f, val z: Float = 0f) {
         return Math.sqrt((this.x * this.x + this.y * this.y + this.z * this.z).toDouble()).toFloat()
     }
 
+    fun swapYZ(): Vector3 {
+        return Vector3(this.x, this.z, this.y)
+    }
+
     operator fun plus(other: Vector3): Vector3  {
         return Vector3(this.x + other.x, this.y + other.y, this.z + other.z)
     }

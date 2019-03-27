@@ -12,13 +12,15 @@ object STLLoader : Loader() {
 
         outStream.writeInt(data.faces.size)
         data.faces.forEach {
-            outStream.writeFloat(it.normal.x)
-            outStream.writeFloat(it.normal.y)
-            outStream.writeFloat(it.normal.z)
-            it.vertices.forEach { i ->
+            val n = it.normal.swapYZ()
+            outStream.writeFloat(n.x)
+            outStream.writeFloat(n.y)
+            outStream.writeFloat(n.z)
+            it.vertices.forEach { j ->
+                val i = j.swapYZ()
                 outStream.writeFloat(i.x)
-                outStream.writeFloat(i.y)
                 outStream.writeFloat(i.z)
+                outStream.writeFloat(i.y)
             }
             outStream.writeShort(2)
         }
@@ -46,7 +48,7 @@ object STLLoader : Loader() {
             val v2 = Vector3(data.readFloat(), data.readFloat(), data.readFloat())
             val v3 = Vector3(data.readFloat(), data.readFloat(), data.readFloat())
             data.readShort()
-            vertexData.addFaceWithNormal(v1, v2, v3, normal)
+            vertexData.addFaceWithNormal(v1.swapYZ(), v2.swapYZ(), v3.swapYZ(), normal.swapYZ())
         }
         return vertexData
     }
