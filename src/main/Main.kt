@@ -22,7 +22,7 @@ fun main() {
     val data = ModelData(model.header)
     for (i in 0..240) {
         val yPlane = Plane(Vector3(0f, height, 0f), Vector3(0f, 1f, 0f))
-        val intersecting = model.faces.mapNotNull { it.planeIntersection(yPlane) }
+        val intersecting = model.faces.mapNotNull { yPlane.triangleIntersectsPlane(it) }
         intersecting.forEach {
             data.add(Triangle(it.first, it.first, it.second))
         }
