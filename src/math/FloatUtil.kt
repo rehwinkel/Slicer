@@ -4,7 +4,7 @@ import java.lang.Math.abs
 
 object FloatUtil {
 
-    const val epsilon = 5.96e-7
+    const val epsilon = 1e-6
 
     fun floatEQ(a: Float, b: Float): Boolean {
         return abs(a-b) < epsilon

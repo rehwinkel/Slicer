@@ -3,6 +3,9 @@ package math
 import math.FloatUtil.floatNE
 
 data class Vector3(val x: Float = 0f, val y: Float = 0f, val z: Float = 0f) {
+    val xz: Vector2
+        get() = Vector2(x, z)
+
     fun normalized(): Vector3 {
         val length = mag()
         return Vector3(this.x / length, this.y / length, this.z / length)
